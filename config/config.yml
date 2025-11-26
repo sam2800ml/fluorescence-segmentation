@@ -1,0 +1,8 @@
+data:
+  BASE_DIR: /opt/airflow/data
+  RAW_DIR: /opt/airflow/data/raw
+  MASK_DIR: /opt/airflow/data/mask
+  META_DIR: /opt/airflow/data/meta
+  INDEX_FILE: /opt/airflow/data/index.csv
+  TXT_FILE: /opt/airflow/ens_id.txt
+

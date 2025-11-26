@@ -1,0 +1,64 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+logs/
+data/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual env / local env
+.env
+.venv/
+venv/
+
+# IDE / editor settings
+.vscode/
+.idea/
+
+# Data / outputs / artifacts — adapt to your project folders
+data/
+raw_images/
+processed_images/
+masks/
+outputs/
+models/
+mlruns/
+*.pth
+*.ckpt
+*.h5
+*.pt
+*.npz
+
+# Logs, caches, temporary files
+*.log
+cache/
+.tmp/
+__pycache__/
+*.tmp
+
+# Jupyter / notebook metadata / checkpoints (if you keep notebooks)
+.ipynb_checkpoints/
+
+# Build artifacts, distributions (if any)
+build/
+dist/
+
+# System-specific
+*.DS_Store
