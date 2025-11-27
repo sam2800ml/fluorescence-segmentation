@@ -42,8 +42,9 @@
 #                                as described in https://airflow.apache.org/docs/docker-stack/build.html.
 #                                Default: ''
 #
+
 # Feel free to modify this file to suit your needs.
----
+
 x-airflow-common:
   &airflow-common
   # In order to add custom dependencies or upgrade provider packages you can use your extended image.
@@ -182,10 +183,21 @@ services:
     volumes:
       - ./mlruns:/opt/airflow/mlruns
     ports:
-      - "5001:5000"  # or "5000:5000" if port free for you
+      - "5001:5000"  
     restart: always
-
-
+  
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    env_file:
+      - .env
+    environment:
+      # These must be supplied for MLflow login (DagsHub API)
+      - MLFLOW_TRACKING_USERNAME=sam2800ml
+      - MLFLOW_TRACKING_PASSWORD=${DAGSHUB_TOKEN}
+    ports:
+      - "8501:8501"
 
   airflow-triggerer:
     <<: *airflow-common
