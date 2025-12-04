@@ -13,16 +13,7 @@ import matplotlib.pyplot as plt
 
 # ============ CORRECTED INPUT HANDLING ============
 def prepare_input_image(uploaded_file, input_mode="auto"):
-    """
-    Handle both single-channel and multi-channel inputs correctly.
-    
-    Args:
-        uploaded_file: Streamlit file uploader object
-        input_mode: "auto" (detect), "single" (grayscale), or "combined" (3-channel RGB)
-    
-    Returns:
-        img_resized: (512, 512, 3) normalized image ready for model
-    """
+
     img = Image.open(uploaded_file).convert("RGB") # Explicitly convert to RGB initially
     img_array = np.array(img)
     
@@ -78,7 +69,7 @@ def render_jet_mask(pred_mask, num_classes=4):
     return pred_color
 
 
-# ============ STREAMLIT UI ============
+
 st.set_page_config(page_title="Cell Segmentation Demo", page_icon="🔬", layout="wide")
 st.title("🔬 Fluorescence Cell Segmentation")
 st.markdown("Upload protein-only or combined images – model predicts 4 classes (bg / nucleus / cytoplasm / protein).")
@@ -136,7 +127,6 @@ uploaded_file = st.file_uploader("Upload fluorescence image…", type=["png", "j
 
 if uploaded_file is not None:
     try:
-        # ============ FIXED INPUT PROCESSING ============
         img_resized = prepare_input_image(uploaded_file)
         img_norm = normalize_image(img_resized)
 
@@ -153,7 +143,6 @@ if uploaded_file is not None:
             pred = model(img_tensor)
             pred_mask = torch.argmax(pred, dim=1).squeeze().cpu().numpy()
 
-        # ============ FIXED COLORMAP RENDERING ============
         # The fix is in this function call's implementation
         pred_color = render_jet_mask(pred_mask, NUM_CLASSES)
 

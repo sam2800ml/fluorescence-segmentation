@@ -15,23 +15,26 @@ Key features:
 - Configuration via a YAML file for paths and pipelines  
 
 ---
-
+```bash
 ## 📁 Project Structure
-
+├── donfig
 ├── dags/ # Airflow DAG definitions
-├── tasks/ # Modular tasks: data acquisition, preprocessing, segmentation, training
-│ ├── data_acquisition/
-│ ├── segmentation/
-│ ├── train/
-├── config/ # YAML configuration files (paths, directories, etc.)
+│ ├── tasks/ 
+│ │ ├── data_acquisition/     
+│ │ ├── segmentation/
+│ │ ├── train/
+│ ├── utils/ 
+│ ├── test.py
+├── notebooks
 ├── ends_id.txt # List of ENSG IDs to process
-├── Dockerfile # Build environment (Airflow + ML dependencies + MLflow setup)
-├── pyproject.toml # Python dependencies / build configuration
-├── README.md # This file
-└── … other source files …
+├── Dockerfile
+├── Dockerfile.mlflow
+├── Dockerfile.streamlit
+├── docker-compose.yaml
+├── pyproject.toml
+├── README.md 
+```
 
-yaml
-Copy code
 
 ---
 
@@ -67,6 +70,8 @@ cd fluorescence-segmentation-pipeline
 # Build Docker image and start containers
 docker compose build
 docker compose up -d
+
+```
 Once the containers are running:
 
 Go to Airflow UI at http://localhost:8080
@@ -85,48 +90,9 @@ Build dataset and train segmentation model
 
 Log metrics and save model via MLflow
 
-🔧 Customization
-Add new ENSG IDs — edit the ends_id.txt file
-
-Configure data paths — update config/config.yml (raw, mask, metadata, output directories)
-
-Switch model architecture — edit the train_model_t task in your DAG to use a different model (e.g. NestedUNet, AttentionUNet, plain UNet)
-
-Adjust augmentation / data split — modify files in tasks/train/transformations.py or tasks/train/dataset_loader.py
-
-📈 Usage & Outputs
-Trained segmentation model (UNet / AttentionUNet) saved as .pth file
-
-Segmentation masks (nucleus, cytoplasm, protein) stored in mask directory defined in config
-
-MLflow experiment with logged:
-
-Hyperparameters (learning rate, batch size, model type…)
-
-Training / validation loss
-
-Dice, Jaccard, Precision, Recall metrics per epoch
-
-Best model artifact for versioning / reproducibility
-
-✅ When this project is useful
-This pipeline is ideal for:
-
-Researchers / engineers working on automated cell-level image analysis
-
-Projects requiring reproducible MLOps pipelines for biomedical imaging
-
-Protein localization studies, expression quantification, morphology analysis
-
-As a foundation for more complex tasks: e.g. integrating Doppler echocardiography, time series analysis of medical imaging, or building larger scale image segmentation databases
-
 ⏱️ Current Limitations & Future Work
-Running training inside Airflow + Docker may still trigger memory issues depending on dataset size and model — consider using a more powerful environment or GPU.
+Running training inside Airflow + Docker may still trigger memory issues depending on dataset size and model — consider using a more powerful environment or GPU and multicontainers.
 
 Augmentations and preprocessing are basic — more advanced data cleaning / augmentation pipelines may improve performance.
 
 Mask generation currently uses classical image-processing; future work could integrate human-annotated masks or semi-supervised refinement.
-
-No web UI for visualizing segmentation results yet (could be added).
-
-MLflow currently may use a local file backend; switching to a centralized backend (database + artifact store) would be more robust for large experiments.
