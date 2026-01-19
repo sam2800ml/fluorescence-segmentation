@@ -1,0 +1,19 @@
+# Data Manipulation & Math
+numpy>=1.24.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+
+# Computer Vision & Augmentation
+opencv-python-headless  # Headless version is better for Docker (no GUI needed)
+albumentations>=1.3.0
+monai>=1.3.0
+
+# ML Tracking & Utilities
+mlflow>=2.0.0
+tqdm>=4.65.0
+psutil>=5.9.0
+
+# Deep Learning Framework
+# Note: If using the PyTorch base image, you can remove 'torch' from this list.
+torch>=2.1.0
+torchvision>=0.16.0

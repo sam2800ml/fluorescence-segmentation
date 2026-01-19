@@ -80,6 +80,7 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
     - ${AIRFLOW_PROJ_DIR:-.}/ends_id.txt:/opt/airflow/ends_id.txt
     - ${AIRFLOW_PROJ_DIR:-.}/data:/opt/airflow/data
+    - /var/run/docker.sock:/var/run/docker.sock ## Adding this part to be adding the dockeropertator 
 
   user: "${AIRFLOW_UID:-50000}:0"
   depends_on:
@@ -305,13 +306,31 @@ services:
       test: ["CMD", "curl", "--fail", "http://localhost:5555/"]
       interval: 30s
       timeout: 10s
-      retries: 5
+      retries: 5 
       start_period: 30s
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+  
+  model-prediction:
+    build:
+      context: ml_train
+    image: model-prediction
+    restart: "no"
+  
+  docker-socket-proxy:
+    image: tecnativa/docker-socket-proxy:0.1.1
+    environment:
+      CONTAINERS: 1
+      IMAGES: 1
+      AUTH: 1
+      POST: 1
+    privileged: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: always
 
 volumes:
   postgres-db-volume:

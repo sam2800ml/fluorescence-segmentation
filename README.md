@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project implements a full end-to-end pipeline to download, preprocess, segment, and train a deep model on fluorescence microscopy images (nucleus, cytoplasm, protein) from the Human Protein Atlas (HPA). The goal is to produce high-quality segmentation masks and a trained model (UNet / Attention-UNet) that can be used for downstream analyses (e.g. protein localization, quantification, tissue-level studies).
+This project implements a full end-to-end pipeline to download, preprocess, segment, and train a deep model on fluorescence microscopy images (nucleus, cytoplasm, protein) from the Human Protein Atlas (HPA). The goal is to produce high-quality segmentation masks and a trained model (UNet / Attention-UNet) that can be used for downstream analyses.
 
 Key features:
 
