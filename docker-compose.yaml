@@ -187,18 +187,29 @@ services:
       - "5001:5000"  
     restart: always
   
-  streamlit:
+  inference-api:
     build:
-      context: .
-      dockerfile: Dockerfile.streamlit
+      context: ./backend
+    container_name: inference-api
+    ports:
+      - "8000:8000"
+    environment:
+      - MLFLOW_TRACKING_URI=https://dagshub.com/sam2800ml/fluorescence-segmentation.mlflow
+      - MLFLOW_TRACKING_USERNAME=DAGSHUB_USERNAME
+      - MLFLOW_TRACKING_PASSWORD=DAGSHUB_TOKEN
     env_file:
       - .env
-    environment:
-      # These must be supplied for MLflow login (DagsHub API)
-      - MLFLOW_TRACKING_USERNAME=sam2800ml
-      - MLFLOW_TRACKING_PASSWORD=${DAGSHUB_TOKEN}
+  
+  streamlit:
+    build:
+      context: ./frontpage
+    container_name: streamlit-ui
     ports:
       - "8501:8501"
+    environment:
+      - API_URL=http://inference-api:8000/predict
+    depends_on:
+      - inference-api
 
   airflow-triggerer:
     <<: *airflow-common

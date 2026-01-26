@@ -1,0 +1,14 @@
+# --- API Server ---
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6  # Required by FastAPI to handle UploadFile
+
+# --- Machine Learning ---
+torch==2.2.0             # Matches your training framework
+mlflow==2.10.0           # For DagsHub/Registry integration
+dagshub==0.3.2           # Simplifies authentication
+
+# --- Image Processing & Math ---
+numpy==1.26.3
+Pillow==10.2.0           # This is the "PIL" library
+opencv-python-headless==4.9.0.80  # "Headless" is crucial for Docker (smaller, no GUI deps)
